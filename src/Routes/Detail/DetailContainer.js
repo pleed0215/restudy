@@ -3,10 +3,16 @@ import DetailPresenter from "./DetailPresenter";
 import { tvApi, movieApi } from "api";
 
 export default class extends React.Component {
-    state = {
-        result: null,
-        error: null,
-        loading: true,
+    constructor(props) {
+        super(props);
+        const { match: { path } } = this.props;
+
+        this.state = {
+            result: null,
+            error: null,
+            loading: true,
+            isMovie: path.includes("/movie/"),
+        }
     }
 
     async componentDidMount() {
@@ -15,35 +21,41 @@ export default class extends React.Component {
             {
                 params:
                 { id },
-                path
             },
             history:
             {
                 push
             }
         } = this.props;
+        const { isMovie } = this.state;
         const parsedId = parseInt(id);
-        let result = {};
 
         if (isNaN(parsedId)) {
             return push('/');
         }
 
-        if (path.includes("movie")) {
-            result = await movieApi.detail(parsedId);
-        } else {
-            result = await tvApi.detail(parsedId);
-        }
+        let result = null;
 
-        this.setState({ result: result.data });
+        try {
+            if (isMovie) {
+                result = await movieApi.detail(parsedId);
+            } else {
+                result = await tvApi.detail(parsedId);
+            }
+        } catch {
+            this.setState({ error: "Can't get detail information of movie(or tv show)." });
+        } finally {
+            this.setState({
+                result: result.data,
+                loading: false
+            })
+        }
     }
 
     render() {
         const {
             result, error, loading
         } = this.state;
-        console.log(this.state);
-        console.log(this.props);
         return <DetailPresenter
             result={result}
             error={error}
