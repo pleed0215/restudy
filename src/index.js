@@ -4,8 +4,6 @@ import App from "Components/App";
 
 import { movieApi, tvApi } from "./api.js";
 
-
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
