@@ -11,12 +11,19 @@ export default class extends React.Component {
         searchTerm: "",
     }
 
-    onSubmit = () => {
+    onSubmit = (event) => {
         const { searchTerm } = this.state;
 
+        event.preventDefault();
+
+        console.log(searchTerm);
         if (searchTerm !== "") {
             this.searchByTerm();
         }
+    }
+
+    onChange = (event) => {
+        this.setState({ searchTerm: event.target.value });
     }
 
 
@@ -24,19 +31,21 @@ export default class extends React.Component {
         const { searchTerm: query } = this.state;
 
         try {
+            this.setState({ loading: true });
             const { data: { results: movieResult } } = await movieApi.search(query);
             const { data: { results: tvResult } } = await tvApi.search(query);
-            this.setState({ loading: true });
             this.setState({
                 movieResult,
                 tvResult
             })
+            console.log(movieResult, tvResult);
         } catch {
-            this.setState({ error: "Can't get results" });
+            this.setState({ error: "Can't get results", loading: false });
         } finally {
             this.setState({ loading: false });
         }
     }
+
 
     render() {
         const {
@@ -44,8 +53,7 @@ export default class extends React.Component {
             tvResult,
             error,
             loading,
-            searchTerm,
-            onSubmit
+            searchTerm
         } = this.state;
 
         console.log(this.state);
@@ -55,6 +63,7 @@ export default class extends React.Component {
             error={error}
             loading={loading}
             sarchTerm={searchTerm}
-            onSubmit={onSubmit} />
+            onSubmit={this.onSubmit}
+            onChange={this.onChange} />
     }
 }

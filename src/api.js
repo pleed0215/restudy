@@ -4,7 +4,7 @@ const movieApiConfig = {
     baseURL: "https://api.themoviedb.org/3/",
     params: {
         api_key: "fbf6b8cf40575086aa6bf86c6c64f56e",
-        language: "ko-KR"
+        language: "ko-KR",
     }
 };
 
@@ -27,6 +27,7 @@ export const movieApi = {
                 language: "ko-KR",
                 query: encodeURIComponent(query),
                 include_adult: true,
+                page: 10
             }
         })),
 
@@ -50,6 +51,7 @@ export const tvApi = {
                 language: "ko-KR",
                 query: encodeURIComponent(query),
                 include_adult: true,
+                page: 10
             }
         }))
 }
