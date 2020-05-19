@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Section from "Components/Section";
 import Message from "Components/Message";
 import Loader from "Components/Loader";
+import Poster from "Components/Poster";
 
 const Container = styled.div`
   padding: 0px 10px;
