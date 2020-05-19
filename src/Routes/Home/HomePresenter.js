@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Section from "Components/Section";
+import Message from "Components/Message";
 import Loader from "Components/Loader";
 
 const Container = styled.div`
@@ -34,6 +35,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => {
           ))}
         </Section>
       )}
+      {error && <Message text={error} />}
     </Container>
   );
 };
