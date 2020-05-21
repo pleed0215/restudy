@@ -27,7 +27,7 @@ const Grid = styled.div`
   justify-content: center;
   align-items: center;
   width: 90%;
-  grid-template-columns: repeat(auto-fill, 125px);
+  grid-template-columns: repeat(auto-fill, 100px);
   grid-auto-columns: auto;
   grid-gap: 25px;
 `;

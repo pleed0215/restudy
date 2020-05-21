@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
+import Poster from "Components/Poster";
 
 const Container = styled.div`
   &:not(:last-child) {
@@ -21,31 +22,49 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
   return loading ? (
     <Loader />
   ) : (
-    <Container>
-      {topRated && topRated.length > 0 && (
-        <Section title="Top Rated TV shows">
-          {topRated.map((tvShow) => (
-            <div>{tvShow.name}</div>
-          ))}
-        </Section>
-      )}
-      {popular && popular.length > 0 && (
-        <Section title="Popular TV shows">
-          {popular.map((tvShow) => (
-            <div>{tvShow.name}</div>
-          ))}
-        </Section>
-      )}
-      {airingToday && airingToday.length > 0 && (
-        <Section title="Airing TV show today">
-          {airingToday.map((tvShow) => (
-            <div>{tvShow.name}</div>
-          ))}
-        </Section>
-      )}
-      {error && <Message text={error} />}
-    </Container>
-  );
+      <Container>
+        {topRated && topRated.length > 0 && (
+          <Section title="Top Rated TV shows">
+            {topRated.map((tvShow) => (
+              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
+                id={tvShow.id}
+                key={tvShow.id}
+                title={tvShow.name}
+                rating={tvShow.vote_average}
+                year={tvShow.first_air_date && tvShow.first_air_date.substring(0, 4)}
+                isMovie={false} />
+            ))}
+          </Section>
+        )}
+        {popular && popular.length > 0 && (
+          <Section title="Popular TV shows">
+            {popular.map((tvShow) => (
+              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
+                id={tvShow.id}
+                key={tvShow.id}
+                title={tvShow.name}
+                rating={tvShow.vote_average}
+                year={tvShow.first_air_date && tvShow.first_air_date.substring(0, 4)}
+                isMovie={false} />
+            ))}
+          </Section>
+        )}
+        {airingToday && airingToday.length > 0 && (
+          <Section title="Airing TV show today">
+            {airingToday.map((tvShow) => (
+              <Poster imageUrl={`https://image.tmdb.org/t/p/w300/${tvShow.poster_path}`}
+                id={tvShow.id}
+                key={tvShow.id}
+                title={tvShow.name}
+                rating={tvShow.vote_average}
+                year={tvShow.first_air_date && tvShow.first_air_date.substring(0, 4)}
+                isMovie={false} />
+            ))}
+          </Section>
+        )}
+        {error && <Message text={error} />}
+      </Container>
+    );
 };
 
 TVPresenter.propTypes = {
