@@ -7,6 +7,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 12px;
+  border-radius: 4px;
+  width: 100%;
+  &:hover {
+    border: 1px solid #74b9ff;
+  }
 `;
 
 const Image = styled.div`
@@ -25,7 +30,7 @@ const Rating = styled.div`
   width: 100px;
   position: relative;
   top: -13px;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 const Title = styled.span`
   text-overflow: ellipsis;
