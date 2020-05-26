@@ -17,7 +17,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => {
         {nowPlaying && nowPlaying.length > 0 && (
           <Section title="Now Playing">
             {nowPlaying.map((movie) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+              <Poster imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}
@@ -30,7 +30,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => {
         {popular && popular.length > 0 && (
           <Section title="Popular">
             {popular.map((movie) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              <Poster imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}
@@ -43,7 +43,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => {
         {upcoming && upcoming.length > 0 && (
           <Section title="Upcoming">
             {upcoming.map((movie) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              <Poster imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}

@@ -15,7 +15,9 @@ export default class extends React.Component {
         }
     }
 
+
     async componentDidMount() {
+        console.log('props', this.props);
         const {
             match:
             {
@@ -56,6 +58,7 @@ export default class extends React.Component {
         const {
             result, error, loading
         } = this.state;
+        console.log(this.state);
         return <DetailPresenter
             result={result}
             error={error}

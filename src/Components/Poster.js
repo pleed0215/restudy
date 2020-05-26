@@ -27,9 +27,9 @@ const Image = styled.div`
 
 const Rating = styled.div`
   visibility: hidden;
-  width: 100px;
+  width: 100%;
   position: relative;
-  top: -13px;
+  top: -12px;
   background-color: rgba(0, 0, 0, 0.7);
 `;
 const Title = styled.span`
@@ -43,6 +43,7 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   &:hover {
     ${Image} {
       opacity: 0.3;
@@ -57,7 +58,7 @@ const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
   <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
     <Container>
       <ImageContainer>
-        <Image bgUrl={imageUrl} />
+        <Image bgUrl={imageUrl ? `https://image.tmdb.org/t/p/w200/${imageUrl}` : require("../assets/noposter.jpg")} />
         <Rating>
           <span role="img" aria-label="rating">
             ⭐️

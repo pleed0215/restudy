@@ -47,7 +47,7 @@ const SearchPresenter = ({
             {movieResult && movieResult.length > 0 && (
               <Section title="Movie Results...">
                 {movieResult.map((movie) => (
-                  <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                  <Poster imageUrl={movie.poster_path}
                     id={movie.id}
                     key={movie.id}
                     title={movie.title}
@@ -60,7 +60,7 @@ const SearchPresenter = ({
             {tvResult && tvResult.length > 0 && (
               <Section title="TV Show Results...">
                 {tvResult.map((show) => (
-                  <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
+                  <Poster imageUrl={show.poster_path}
                     id={show.id}
                     key={show.id}
                     title={show.name}

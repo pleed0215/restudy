@@ -56,4 +56,3 @@ export const tvApi = {
         }))
 }
 
-movieApi.search("lor  d");

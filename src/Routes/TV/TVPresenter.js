@@ -26,7 +26,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
         {topRated && topRated.length > 0 && (
           <Section title="Top Rated TV shows">
             {topRated.map((tvShow) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
+              <Poster imageUrl={tvShow.poster_path}
                 id={tvShow.id}
                 key={tvShow.id}
                 title={tvShow.name}
@@ -39,7 +39,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
         {popular && popular.length > 0 && (
           <Section title="Popular TV shows">
             {popular.map((tvShow) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
+              <Poster imageUrl={tvShow.poster_path}
                 id={tvShow.id}
                 key={tvShow.id}
                 title={tvShow.name}
@@ -52,7 +52,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
         {airingToday && airingToday.length > 0 && (
           <Section title="Airing TV show today">
             {airingToday.map((tvShow) => (
-              <Poster imageUrl={`https://image.tmdb.org/t/p/w300/${tvShow.poster_path}`}
+              <Poster imageUrl={tvShow.poster_path}
                 id={tvShow.id}
                 key={tvShow.id}
                 title={tvShow.name}
