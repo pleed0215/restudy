@@ -5,58 +5,70 @@ import Section from "Components/Section";
 import Message from "Components/Message";
 import Loader from "Components/Loader";
 import Poster from "Components/Poster";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0px 10px;
 `;
-const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => {
-  return loading ? (
-    <Loader />
-  ) : (
+const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => (
+  <>
+    <Helmet>
+      <title>Movies | Fuckflex</title>
+    </Helmet>
+    {loading ? (
+      <Loader />
+    ) : (
       <Container>
         {nowPlaying && nowPlaying.length > 0 && (
           <Section title="Now Playing">
             {nowPlaying.map((movie) => (
-              <Poster imageUrl={movie.poster_path}
+              <Poster
+                imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}
                 rating={movie.vote_average}
                 year={movie.release_date && movie.release_date.substring(0, 4)}
-                isMovie={true} />
+                isMovie={true}
+              />
             ))}
           </Section>
         )}
         {popular && popular.length > 0 && (
           <Section title="Popular">
             {popular.map((movie) => (
-              <Poster imageUrl={movie.poster_path}
+              <Poster
+                imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}
                 rating={movie.vote_average}
                 year={movie.release_date && movie.release_date.substring(0, 4)}
-                isMovie={true} />
+                isMovie={true}
+              />
             ))}
           </Section>
         )}
         {upcoming && upcoming.length > 0 && (
           <Section title="Upcoming">
             {upcoming.map((movie) => (
-              <Poster imageUrl={movie.poster_path}
+              <Poster
+                imageUrl={movie.poster_path}
                 id={movie.id}
                 key={movie.id}
                 title={movie.title}
                 rating={movie.vote_average}
                 year={movie.release_date && movie.release_date.substring(0, 4)}
-                isMovie={true} />
+                isMovie={true}
+              />
             ))}
           </Section>
         )}
         {error && <Message text={error} />}
       </Container>
-    );
-};
+    )}
+  </>
+);
 
 HomePresenter.propTypes = {
   nowPlaying: PropTypes.array,

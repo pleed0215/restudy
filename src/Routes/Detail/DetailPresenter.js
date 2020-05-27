@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Loader from "Components/Loader";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   height: calc(100vh - 80px);
@@ -70,57 +71,73 @@ const UnderTitleItem = styled.li`
 `;
 const Overview = styled.p``;
 
-const DetailPresenter = ({ result, error, loading, isMovie }) =>
-  loading ? (
-    <Loader />
-  ) : (
-    result && (
-      <Container>
-        <Backdrop
-          bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
-        />
-        <Content>
-          <Cover
-            bgUrl={
-              result.poster_path
-                ? `https://image.tmdb.org/t/p/original/${result.poster_path}`
-                : require("../../assets/noposter.jpg")
-            }
+const DetailPresenter = ({ result, error, loading, isMovie }) => (
+  <>
+    {result && (
+      <Helmet>
+        <title>{isMovie ? result.title : result.name} | Fuckflex</title>
+      </Helmet>
+    )}
+    {loading ? (
+      <>
+        <Helmet>
+          <title>Loading... | Fuckflex</title>
+        </Helmet>
+        <Loader />
+      </>
+    ) : (
+      result && (
+        <Container>
+          <Backdrop
+            bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
           />
-          <Data>
-            <Title>{isMovie ? result.title : result.name}</Title>
-            <UnderTitle>
-              <UnderTitleItem>
-                <span>
-                  {isMovie
-                    ? result.release_date.substring(0, 4)
-                    : result.first_air_date.substring(0, 4)}
-                </span>
-              </UnderTitleItem>
-              <UnderTitleItem>
-                <span>
-                  {isMovie ? result.runtime : result.episode_run_time}min
-                </span>
-              </UnderTitleItem>
-              <UnderTitleItem>
-                <span>
-                  {result.genres.map((genre, idx) =>
-                    result.genres.length - 1 !== idx
-                      ? `${genre.name}/`
-                      : genre.name
-                  )}
-                </span>
-              </UnderTitleItem>
-              <UnderTitleItem>
-                <span>{result.vote_average}</span>
-              </UnderTitleItem>
-            </UnderTitle>
-            <Overview>{result.overview}</Overview>
-          </Data>
-        </Content>
-      </Container>
-    )
-  );
+          <Content>
+            <Cover
+              bgUrl={
+                result.poster_path
+                  ? `https://image.tmdb.org/t/p/original/${result.poster_path}`
+                  : require("../../assets/noposter.jpg")
+              }
+            />
+            <Data>
+              <Title>{isMovie ? result.title : result.name}</Title>
+              <UnderTitle>
+                <UnderTitleItem>
+                  <span>
+                    {isMovie
+                      ? result.release_date.substring(0, 4)
+                      : result.first_air_date.substring(0, 4)}
+                  </span>
+                </UnderTitleItem>
+                <UnderTitleItem>
+                  <span>
+                    {isMovie ? result.runtime : result.episode_run_time}min
+                  </span>
+                </UnderTitleItem>
+                <UnderTitleItem>
+                  <span>
+                    {result.genres.map((genre, idx) =>
+                      result.genres.length - 1 !== idx
+                        ? `${genre.name}/`
+                        : genre.name
+                    )}
+                  </span>
+                </UnderTitleItem>
+                <UnderTitleItem>
+                  <span role="img" aria-label="rating">
+                    ⭐️
+                  </span>{" "}
+                  {result.vote_average}/10
+                </UnderTitleItem>
+              </UnderTitle>
+              <Overview>{result.overview}</Overview>
+            </Data>
+          </Content>
+        </Container>
+      )
+    )}
+  </>
+);
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,

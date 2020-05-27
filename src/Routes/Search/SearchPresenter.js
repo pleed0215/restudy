@@ -5,6 +5,7 @@ import Section from "Components/Section";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Poster from "Components/Poster";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -31,42 +32,54 @@ const SearchPresenter = ({
   onChange,
 }) => {
   return (
-    <Container>
-      <Form onSubmit={onSubmit}>
-        <Input
-          type="text"
-          placeholder="Search TV or movies by text."
-          value={searchTerm}
-          onChange={onChange}
-        />
-      </Form>
-      {loading ? (
-        <Loader />
-      ) : (
+    <>
+      <Helmet>
+        <title>Search ... | Fuckflex</title>
+      </Helmet>
+      <Container>
+        <Form onSubmit={onSubmit}>
+          <Input
+            type="text"
+            placeholder="Search TV or movies by text."
+            value={searchTerm}
+            onChange={onChange}
+          />
+        </Form>
+        {loading ? (
+          <Loader />
+        ) : (
           <>
             {movieResult && movieResult.length > 0 && (
               <Section title="Movie Results...">
                 {movieResult.map((movie) => (
-                  <Poster imageUrl={movie.poster_path}
+                  <Poster
+                    imageUrl={movie.poster_path}
                     id={movie.id}
                     key={movie.id}
                     title={movie.title}
                     rating={movie.vote_average}
-                    year={movie.release_date && movie.release_date.substring(0, 4)}
-                    isMovie={true} />
+                    year={
+                      movie.release_date && movie.release_date.substring(0, 4)
+                    }
+                    isMovie={true}
+                  />
                 ))}
               </Section>
             )}
             {tvResult && tvResult.length > 0 && (
               <Section title="TV Show Results...">
                 {tvResult.map((show) => (
-                  <Poster imageUrl={show.poster_path}
+                  <Poster
+                    imageUrl={show.poster_path}
                     id={show.id}
                     key={show.id}
                     title={show.name}
                     rating={show.vote_average}
-                    year={show.first_air_date && show.first_air_date.substring(0, 4)}
-                    isMovie={false} />
+                    year={
+                      show.first_air_date && show.first_air_date.substring(0, 4)
+                    }
+                    isMovie={false}
+                  />
                 ))}
               </Section>
             )}
@@ -82,7 +95,8 @@ const SearchPresenter = ({
             {error && <Message text={error} />}
           </>
         )}
-    </Container>
+      </Container>
+    </>
   );
 };
 
