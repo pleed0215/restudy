@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ff7d0af88427264f7965de4fba31e5b8",
+    "revision": "3cd34c370f63d42be7e2f250419de80e",
     "url": "/fuckflix/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fuckflix/static/js/2.baf3512f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "14fac222bb29747f6947",
-    "url": "/fuckflix/static/js/main.14f2bbf2.chunk.js"
+    "revision": "00cc16257cacf1d5d54d",
+    "url": "/fuckflix/static/js/main.0d5a1723.chunk.js"
   },
   {
     "revision": "c3803d928e633a26acd0",
