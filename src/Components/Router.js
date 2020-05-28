@@ -15,7 +15,11 @@ export default () => (
   <Router>
     <Header />
     <Switch>
-      <Route path="/" exact component={Home} />
+      <Route
+        path="https://pleed0215.github.io/restudy/"
+        exact
+        component={Home}
+      />
       <Route path="/search" component={Search} />
       <Route path="/tv" exact component={TV} />
       <Route path="/movie/:id" component={Detail} />
