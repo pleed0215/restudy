@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/fuckflix/static/js/main.14f2bbf2.chunk.js",
+    "main.js.map": "/fuckflix/static/js/main.14f2bbf2.chunk.js.map",
+    "runtime-main.js": "/fuckflix/static/js/runtime-main.753bcf03.js",
+    "runtime-main.js.map": "/fuckflix/static/js/runtime-main.753bcf03.js.map",
+    "static/css/2.5c17b9f1.chunk.css": "/fuckflix/static/css/2.5c17b9f1.chunk.css",
+    "static/js/2.baf3512f.chunk.js": "/fuckflix/static/js/2.baf3512f.chunk.js",
+    "static/js/2.baf3512f.chunk.js.map": "/fuckflix/static/js/2.baf3512f.chunk.js.map",
+    "index.html": "/fuckflix/index.html",
+    "precache-manifest.b11b31e6ada431f306364237a94373de.js": "/fuckflix/precache-manifest.b11b31e6ada431f306364237a94373de.js",
+    "service-worker.js": "/fuckflix/service-worker.js",
+    "static/css/2.5c17b9f1.chunk.css.map": "/fuckflix/static/css/2.5c17b9f1.chunk.css.map",
+    "static/js/2.baf3512f.chunk.js.LICENSE.txt": "/fuckflix/static/js/2.baf3512f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.753bcf03.js",
+    "static/css/2.5c17b9f1.chunk.css",
+    "static/js/2.baf3512f.chunk.js",
+    "static/js/main.14f2bbf2.chunk.js"
+  ]
+}
