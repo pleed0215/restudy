@@ -29,7 +29,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://pleed0215.github.io/fuckflix",
+  "homepage": "https://pleed0215.github.io/restudy",
   "browserslist": {
     "production": [
       ">0.2%",

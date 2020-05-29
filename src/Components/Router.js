@@ -20,10 +20,23 @@ export default () => (
         exact
         component={Home}
       />
-      <Route path="/search" component={Search} />
-      <Route path="/tv" exact component={TV} />
-      <Route path="/movie/:id" component={Detail} />
-      <Route path="/show/:id" component={Detail} />
+      <Route
+        path="https://pleed0215.github.io/restudy/search"
+        component={Search}
+      />
+      <Route
+        path="https://pleed0215.github.io/restudy/tv"
+        exact
+        component={TV}
+      />
+      <Route
+        path="https://pleed0215.github.io/restudy/movie/:id"
+        component={Detail}
+      />
+      <Route
+        path="https://pleed0215.github.io/restudy/show/:id"
+        component={Detail}
+      />
       <Redirect from="*" to="/" />
     </Switch>
   </Router>
