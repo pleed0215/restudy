@@ -16,25 +16,25 @@ export default () => (
     <Header />
     <Switch>
       <Route
-        path="https://pleed0215.github.io/restudy/"
+        path="/"
         exact
         component={Home}
       />
       <Route
-        path="https://pleed0215.github.io/restudy/search"
+        path="/search"
         component={Search}
       />
       <Route
-        path="https://pleed0215.github.io/restudy/tv"
+        path="/tv"
         exact
         component={TV}
       />
       <Route
-        path="https://pleed0215.github.io/restudy/movie/:id"
+        path="/movie/:id"
         component={Detail}
       />
       <Route
-        path="https://pleed0215.github.io/restudy/show/:id"
+        path="/show/:id"
         component={Detail}
       />
       <Redirect from="*" to="/" />
