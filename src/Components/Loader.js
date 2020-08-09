@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
   height: 100vh;
@@ -9,11 +9,24 @@ const Container = styled.div`
   align-items: center;
   font-size: 40px;
 `;
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const RollClock = styled.span`
+  animation: ${spin} 1s ease-in-out infinite;
+`;
 
 export default () => (
   <Container>
-    <span role="img" aria-label="Loading">
+    <RollClock role="img" aria-label="Loading">
       ⏰
-    </span>
+    </RollClock>
   </Container>
 );

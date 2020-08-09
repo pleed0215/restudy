@@ -1,11 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "Components/Loader";
 import { Helmet } from "react-helmet";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import { tvApi, movieApi } from "api";
 
 const Container = styled.div`
   height: calc(100vh - 80px);
@@ -121,55 +120,110 @@ const CompanyLogo = styled.div`
   margin-bottom: 5px;
 `;
 
-const DetailPresenter = ({ result, error, loading, isMovie }) => (
-  <>
-    {result && (
-      <Helmet>
-        <title>{isMovie ? result.title : result.name} | Fuckflex</title>
-      </Helmet>
-    )}
-    {loading ? (
-      <>
+const Detail = (props) => {
+  const {
+    match: { path },
+  } = props;
+
+  const [state, setState] = useState({
+    result: null,
+    error: null,
+    loading: true,
+    isMovie: path.includes("/movie/"),
+  });
+
+  useEffect(() => {
+    console.log("props", props);
+    const {
+      match: {
+        params: { id },
+      },
+      history: { push },
+    } = props;
+    const { isMovie } = state;
+    const parsedId = parseInt(id);
+
+    if (isNaN(parsedId)) {
+      return push("/");
+    }
+
+    let result = null;
+
+    const fetchDatas = async (apicall, id) => {
+      const { data } = await apicall(id);
+      setState((prevState) => ({ ...prevState, result: data }));
+      console.log("data: ", data);
+      console.log("fetching: ", state);
+    };
+
+    try {
+      fetchDatas(isMovie ? movieApi.detail : tvApi.detail, parsedId);
+      console.log("after fetching: ", state);
+    } catch {
+      setState({
+        error: "Can't get detail information of movie(or tv show).",
+      });
+    } finally {
+      setState((prevState) => ({ ...prevState, loading: false }));
+      console.log("finally: ", state);
+    }
+  }, []);
+
+  return (
+    <>
+      {state.result && (
         <Helmet>
-          <title>Loading... | Fuckflex</title>
+          <title>
+            {state.isMovie ? state.result.title : state.result.name} | Fuckflex
+          </title>
         </Helmet>
-        <Loader />
-      </>
-    ) : (
-        result && (
+      )}
+      {state.loading ? (
+        <>
+          <Helmet>
+            <title>Loading... | Fuckflex</title>
+          </Helmet>
+          <Loader />
+        </>
+      ) : (
+        state.result && (
           <Container>
             <Backdrop
-              bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
+              bgUrl={`https://image.tmdb.org/t/p/original/${state.result.backdrop_path}`}
             />
             <Content>
               <Cover
                 bgUrl={
-                  result.poster_path
-                    ? `https://image.tmdb.org/t/p/original/${result.poster_path}`
-                    : require("../../assets/noposter.jpg")
+                  state.result.poster_path
+                    ? `https://image.tmdb.org/t/p/original/${state.result.poster_path}`
+                    : require("../assets/noposter.jpg")
                 }
               />
               <Data>
-                <Title>{isMovie ? result.title : result.name}</Title>
-                {isMovie &&
-                  <TagLine>{result.tagline}</TagLine>}
+                <Title>
+                  {state.isMovie ? state.result.title : state.result.name}
+                </Title>
+                {state.isMovie && <TagLine>{state.result.tagline}</TagLine>}
                 <UnderTitle>
                   <UnderTitleItem>
                     <span>
-                      {isMovie
-                        ? result.release_date.substring(0, 4)
-                        : result.first_air_date.substring(0, 4)}
+                      {state.isMovie
+                        ? state.result.release_date.substring(0, 4)
+                        : state.result.first_air_date.substring(0, 4)}
                     </span>
                   </UnderTitleItem>
                   <UnderTitleItem>
                     <span>
-                      {isMovie ? result.runtime : result.episode_run_time}min
-                  </span>
+                      {state.isMovie
+                        ? state.result.runtime
+                        : state.result.episode_run_time}
+                      min
+                    </span>
                   </UnderTitleItem>
                   <UnderTitleItem>
                     <span>
-                      {result.genres.map((genre, idx) =>
-                        result.genres.length - 1 !== idx
+                      {state.result.genres.map((genre, idx) =>
+                        state.result.genres.length - 1 !== idx
                           ? `${genre.name}/`
                           : genre.name
                       )}
@@ -178,11 +232,11 @@ const DetailPresenter = ({ result, error, loading, isMovie }) => (
                   <UnderTitleItem>
                     <span role="img" aria-label="rating">
                       ⭐️
-                  </span>{" "}
-                    {result.vote_average}/10
-                </UnderTitleItem>
+                    </span>{" "}
+                    {state.result.vote_average}/10
+                  </UnderTitleItem>
                 </UnderTitle>
-                <Overview>{result.overview}</Overview>
+                <Overview>{state.result.overview}</Overview>
                 <Tabs>
                   <TabList>
                     <Tab>관련 영상</Tab>
@@ -192,48 +246,41 @@ const DetailPresenter = ({ result, error, loading, isMovie }) => (
 
                   <TabPanel>
                     <TabItemContainer>
-                      {
-                        result.videos.results &&
-                        result.videos.results.map((video) =>
-                          <YouTubeStyle src={`https://www.youtube.com/embed/${video.key}`} />
-                        )
-                      }
+                      {state.result.videos.results &&
+                        state.result.videos.results.map((video) => (
+                          <YouTubeStyle
+                            src={`https://www.youtube.com/embed/${video.key}`}
+                          />
+                        ))}
                     </TabItemContainer>
                   </TabPanel>
                   <TabPanel>
                     <TabItemContainer>
-                      {
-                        result.production_companies &&
-                        result.production_companies.map((company) =>
+                      {state.result.production_companies &&
+                        state.result.production_companies.map((company) => (
                           <CompanyContainer>
-                            <CompanyLogo bgUrl={
-                              company.logo_path ?
-                                `https://image.tmdb.org/t/p/original/${company.logo_path}` :
-                                require("../../assets/noposter.jpg")
-                            } />
+                            <CompanyLogo
+                              bgUrl={
+                                company.logo_path
+                                  ? `https://image.tmdb.org/t/p/original/${company.logo_path}`
+                                  : require("../assets/noposter.jpg")
+                              }
+                            />
                             <div>
                               <span>{company.name}</span>
                             </div>
                           </CompanyContainer>
-                        )
-                      }
+                        ))}
                     </TabItemContainer>
                   </TabPanel>
                 </Tabs>
               </Data>
-
             </Content>
           </Container>
         )
       )}
-  </>
-);
-
-DetailPresenter.propTypes = {
-  result: PropTypes.object,
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  isMovie: PropTypes.bool.isRequired,
+    </>
+  );
 };
 
-export default DetailPresenter;
+export default Detail;
