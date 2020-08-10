@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { tvApi, movieApi } from "api";
 import styled from "styled-components";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
@@ -22,15 +22,55 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const SearchPresenter = ({
-  movieResult,
-  tvResult,
-  error,
-  loading,
-  searchTerm,
-  onSubmit,
-  onChange,
-}) => {
+const Search = () => {
+  const [state, setState] = useState({
+    movieResult: null,
+    tvResult: null,
+    error: null,
+    loading: false,
+    searchTerm: "",
+  });
+
+  const onSubmit = (event) => {
+    const { searchTerm } = state;
+
+    event.preventDefault();
+
+    console.log(searchTerm);
+    if (searchTerm !== "") {
+      searchByTerm();
+    }
+  };
+
+  const onChange = (event) => {
+    setState({ searchTerm: event.target.value });
+  };
+
+  const searchByTerm = async () => {
+    const { searchTerm: query } = state;
+    try {
+      setState({ loading: true });
+
+      const {
+        data: { results: movieResult },
+      } = await movieApi.search(query);
+      const {
+        data: { results: tvResult },
+      } = await tvApi.search(query);
+
+      setState((prevState) => ({
+        ...prevState,
+        movieResult,
+        tvResult,
+      }));
+      console.log("fetching: ", state);
+    } catch {
+      setState({ error: "Can't get results", loading: false });
+    } finally {
+      setState((prevState) => ({ ...prevState, loading: false }));
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -41,17 +81,17 @@ const SearchPresenter = ({
           <Input
             type="text"
             placeholder="Search TV or movies by text."
-            value={searchTerm}
+            value={state.searchTerm}
             onChange={onChange}
           />
         </Form>
-        {loading ? (
+        {state.loading ? (
           <Loader />
         ) : (
           <>
-            {movieResult && movieResult.length > 0 && (
+            {state.movieResult && state.movieResult.length > 0 && (
               <Section title="Movie Results...">
-                {movieResult.map((movie) => (
+                {state.movieResult.map((movie) => (
                   <Poster
                     imageUrl={movie.poster_path}
                     id={movie.id}
@@ -66,9 +106,9 @@ const SearchPresenter = ({
                 ))}
               </Section>
             )}
-            {tvResult && tvResult.length > 0 && (
+            {state.tvResult && state.tvResult.length > 0 && (
               <Section title="TV Show Results...">
-                {tvResult.map((show) => (
+                {state.tvResult.map((show) => (
                   <Poster
                     imageUrl={show.poster_path}
                     id={show.id}
@@ -83,16 +123,16 @@ const SearchPresenter = ({
                 ))}
               </Section>
             )}
-            {tvResult &&
-              movieResult &&
-              tvResult.length === 0 &&
-              movieResult.length === 0 && (
+            {state.tvResult &&
+              state.movieResult &&
+              state.tvResult.length === 0 &&
+              state.movieResult.length === 0 && (
                 <Message
-                  text={`No results found for: ${searchTerm}`}
+                  text={`No results found for: ${state.searchTerm}`}
                   color="red"
                 />
               )}
-            {error && <Message text={error} />}
+            {state.error && <Message text={state.error} />}
           </>
         )}
       </Container>
@@ -100,14 +140,4 @@ const SearchPresenter = ({
   );
 };
 
-SearchPresenter.propTypes = {
-  movieResult: PropTypes.array,
-  tvResult: PropTypes.array,
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  saerchTerm: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
-export default SearchPresenter;
+export default Search;

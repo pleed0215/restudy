@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+import { tvApi } from "api";
 import styled from "styled-components";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
@@ -18,20 +18,61 @@ const Container = styled.div`
   width: 90%;
 `;
 
-const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
-  console.log(popular);
+const TV = (props) => {
+  const [state, setState] = useState({
+    topRated: null,
+    popular: null,
+    airingToday: null,
+    error: null,
+    loading: true,
+  });
+
+  useEffect(() => {
+    const fetchDatas = async () => {
+      const {
+        data: { results: topRated },
+      } = await tvApi.topRated();
+      const {
+        data: { results: popular },
+      } = await tvApi.popular();
+      const {
+        data: { results: airingToday },
+      } = await tvApi.airingToday();
+
+      setState((prevState) => ({
+        ...prevState,
+        topRated,
+        airingToday,
+        popular,
+      }));
+      console.log("fetching: ", state);
+    };
+
+    try {
+      fetchDatas();
+      console.log("after fetching: ", state);
+    } catch {
+      setState({
+        error: "Can't get detail information of movie(or tv show).",
+      });
+    } finally {
+      setState((prevState) => ({ ...prevState, loading: false }));
+      console.log("finally: ", state);
+    }
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>TV shows | Fuckflex</title>
       </Helmet>
-      {loading ? (
+      {state.loading ? (
         <Loader />
       ) : (
         <Container>
-          {topRated && topRated.length > 0 && (
+          {state.topRated && state.topRated.length > 0 && (
             <Section title="Top Rated TV shows">
-              {topRated.map((tvShow) => (
+              {state.topRated.map((tvShow) => (
                 <Poster
                   imageUrl={tvShow.poster_path}
                   id={tvShow.id}
@@ -47,9 +88,9 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
               ))}
             </Section>
           )}
-          {popular && popular.length > 0 && (
+          {state.popular && state.popular.length > 0 && (
             <Section title="Popular TV shows">
-              {popular.map((tvShow) => (
+              {state.popular.map((tvShow) => (
                 <Poster
                   imageUrl={tvShow.poster_path}
                   id={tvShow.id}
@@ -65,9 +106,9 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
               ))}
             </Section>
           )}
-          {airingToday && airingToday.length > 0 && (
+          {state.airingToday && state.airingToday.length > 0 && (
             <Section title="Airing TV show today">
-              {airingToday.map((tvShow) => (
+              {state.airingToday.map((tvShow) => (
                 <Poster
                   imageUrl={tvShow.poster_path}
                   id={tvShow.id}
@@ -83,19 +124,11 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => {
               ))}
             </Section>
           )}
-          {error && <Message text={error} />}
+          {state.error && <Message text={state.error} />}
         </Container>
       )}
     </>
   );
 };
 
-TVPresenter.propTypes = {
-  topRated: PropTypes.array,
-  popular: PropTypes.array,
-  airingToday: PropTypes.array,
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-};
-
-export default TVPresenter;
+export default TV;

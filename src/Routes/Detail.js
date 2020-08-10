@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "Components/Loader";
 import { Helmet } from "react-helmet";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import { Tab, Tabs, TabContent } from "Tabs";
 import { tvApi, movieApi } from "api";
 
 const Container = styled.div`
@@ -238,13 +237,11 @@ const Detail = (props) => {
                 </UnderTitle>
                 <Overview>{state.result.overview}</Overview>
                 <Tabs>
-                  <TabList>
-                    <Tab>관련 영상</Tab>
-                    <Tab>제작사</Tab>
-                    <Tab>국가</Tab>
-                  </TabList>
+                  <Tab>관련 영상</Tab>
+                  <Tab>제작사</Tab>
+                  <Tab>국가</Tab>
 
-                  <TabPanel>
+                  <TabContent>
                     <TabItemContainer>
                       {state.result.videos.results &&
                         state.result.videos.results.map((video) => (
@@ -253,8 +250,8 @@ const Detail = (props) => {
                           />
                         ))}
                     </TabItemContainer>
-                  </TabPanel>
-                  <TabPanel>
+                  </TabContent>
+                  <TabContent>
                     <TabItemContainer>
                       {state.result.production_companies &&
                         state.result.production_companies.map((company) => (
@@ -272,7 +269,7 @@ const Detail = (props) => {
                           </CompanyContainer>
                         ))}
                     </TabItemContainer>
-                  </TabPanel>
+                  </TabContent>
                 </Tabs>
               </Data>
             </Content>
