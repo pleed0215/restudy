@@ -34,6 +34,9 @@ const Rating = styled.div`
 `;
 const Title = styled.span`
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 15px;
 `;
 const Year = styled.span`
   font-size: 10px;
@@ -58,7 +61,13 @@ const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
   <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
     <Container>
       <ImageContainer>
-        <Image bgUrl={imageUrl ? `https://image.tmdb.org/t/p/w200/${imageUrl}` : require("../assets/noposter.jpg")} />
+        <Image
+          bgUrl={
+            imageUrl
+              ? `https://image.tmdb.org/t/p/w200/${imageUrl}`
+              : require("../assets/noposter.jpg")
+          }
+        />
         <Rating>
           <span role="img" aria-label="rating">
             ⭐️
