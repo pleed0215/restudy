@@ -61,7 +61,7 @@ const TV = (props) => {
   return (
     <>
       <Helmet>
-        <title>TV shows | Fuckflex</title>
+        <title>TV shows | Normflex</title>
       </Helmet>
       {state.loading ? (
         <Loader />

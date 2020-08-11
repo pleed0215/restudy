@@ -74,7 +74,7 @@ const Search = () => {
   return (
     <>
       <Helmet>
-        <title>Search ... | Fuckflex</title>
+        <title>Search ... | Normflex</title>
       </Helmet>
       <Container>
         <Form onSubmit={onSubmit}>

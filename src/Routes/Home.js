@@ -54,7 +54,7 @@ const Home = (props) => {
   return (
     <>
       <Helmet>
-        <title>Movies | Fuckflex</title>
+        <title>Movies | Normflex</title>
       </Helmet>
       {state.loading ? (
         <Loader />

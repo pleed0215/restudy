@@ -207,14 +207,14 @@ const Detail = (props) => {
       {state.result && (
         <Helmet>
           <title>
-            {state.isMovie ? state.result.title : state.result.name} | Fuckflex
+            {state.isMovie ? state.result.title : state.result.name} | Normflex
           </title>
         </Helmet>
       )}
       {state.loading ? (
         <>
           <Helmet>
-            <title>Loading... | Fuckflex</title>
+            <title>Loading... | Normflex</title>
           </Helmet>
           <Loader />
         </>
