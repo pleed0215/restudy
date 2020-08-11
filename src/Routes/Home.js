@@ -38,19 +38,16 @@ const Home = (props) => {
         upcoming,
         popular,
       }));
-      console.log("fetching: ", state);
     };
 
     try {
       fetchDatas();
-      console.log("after fetching: ", state);
     } catch {
       setState({
         error: "Can't get detail information of movie(or tv show).",
       });
     } finally {
       setState((prevState) => ({ ...prevState, loading: false }));
-      console.log("finally: ", state);
     }
   }, []);
 

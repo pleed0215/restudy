@@ -6,9 +6,11 @@ const List = styled.ul`
   display: flex;
   flex-direction: row;
   li:hover {
-    background-color: blue;
+    background-color: #3498db;
+    transition: background-color 0.5s ease-in-out;
+
     a {
-      color: white;
+      color: #ecf0f1;
     }
   }
 `;

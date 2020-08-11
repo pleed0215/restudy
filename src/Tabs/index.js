@@ -15,7 +15,7 @@ const TabContainer = styled.ul`
   max-height: 50px;
   display: flex;
   list-style-type: none;
-  margin-left: 10px;
+  margin-left: 30px;
   justify-content: flex-start;
   color: white;
   font-weight: 600;
@@ -31,8 +31,8 @@ const TabPicker = styled.span`
   background-color: ${({ selected }) =>
     selected ? "rgba(150,150,150, 0.3)" : "gray"};
   &:hover {
-    background-color: ${({ selected }) => !selected && "blue"};
-    transition: background-color 0.4s;
+    background-color: ${({ selected }) => !selected && "#3498db"};
+    transition: background-color 0.5s ease-in-out;
     ${({ selected }) => !selected && "cursor: pointer"};
   }
   border-top-left-radius: 10px;
@@ -80,12 +80,12 @@ export const Tabs = ({ children }) => {
   let tabContentItems = [];
   const { currIndex, changeTab } = useTabs(0);
 
-  console.log(children);
-
   children.forEach((child, index) => {
-    if (child.type.target === "li") tabItems.push(child);
-    else if (child.type.target === "div") {
-      tabContentItems.push(child);
+    if (child.type) {
+      if (child.type.target === "li") tabItems.push(child);
+      else if (child.type.target === "div") {
+        tabContentItems.push(child);
+      }
     }
   });
 
@@ -94,6 +94,7 @@ export const Tabs = ({ children }) => {
       <TabContainer>
         {tabItems.map((child, index) => (
           <TabPicker
+            key={`tabs-${index}`}
             onClick={() => changeTab(index)}
             selected={currIndex === index ? true : false}
           >
