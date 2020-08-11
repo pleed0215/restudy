@@ -60,6 +60,7 @@ export const TabContent = styled.div`
 const TabContentContainer = styled.div`
   width: 100%;
   height: auto;
+  min-height: 100px;
   background-color: rgba(150, 150, 150, 0.3);
   padding: 15px;
   border-radius: 20px;
